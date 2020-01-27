@@ -104,6 +104,19 @@ var StatusBar = {
 // prime it. setTimeout so that proxy gets time to init
 window.setTimeout(function () {
     exec(function (res) {
+        try {
+            StatusBar.height(function (height) {
+                const style = document.createElement('style');
+                style.innerHTML = `:root {${[
+                    ['--window-height', `${window.innerHeight}px`],
+                    ['--statusbar-height', `${height}px`],
+                ].map(r => `${r[0]}: ${r[1]};`).join('')}}`;
+                document.head.appendChild(style);
+            });
+        } catch (e) {
+            console.log('[StatusBar height]', e);
+        }
+
         if (typeof res == 'object') {
             if (res.type == 'tap') {
                 cordova.fireWindowEvent('statusTap');
