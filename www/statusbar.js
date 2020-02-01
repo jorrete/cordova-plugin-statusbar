@@ -107,6 +107,7 @@ window.setTimeout(function () {
         try {
             StatusBar.height(function (height) {
                 const style = document.createElement('style');
+                style.setAttribute('statusbar-style', '');
                 style.innerHTML = `:root {${[
                     ['--window-height', `${window.innerHeight}px`],
                     ['--statusbar-height', `${height}px`],
