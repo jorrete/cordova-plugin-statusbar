@@ -108,9 +108,24 @@ window.setTimeout(function () {
             StatusBar.height(function (height) {
                 const style = document.createElement('style');
                 style.id = 'statusbar-style';
+
+                let windowHeight = window.innerHeight;
+                let statusbarHeight = height;
+
+                const savedWindowHeight = window.localStorage.getItem('windowHeight');
+
+                if (savedWindowHeight !== null) {
+                    if (windowHeight > savedWindowHeight) {
+                        windowHeight = savedWindowHeight;
+                    }
+                } else {
+                    window.localStorage.setItem('windowHeight', windowHeight);
+                }
+
                 style.innerHTML = `:root {${[
-                    ['--window-height', `${window.innerHeight}px`],
-                    ['--statusbar-height', `${height}px`],
+                    ['--window-height', `${windowHeight}px`],
+                    ['--statusbar-height', `${statusbarHeight}px`],
+
                 ].map(r => `${r[0]}: ${r[1]};`).join('')}}`;
                 document.head.appendChild(style);
             });
